@@ -1,6 +1,6 @@
 ### crystal_brium
 
-Access [Brium](brium.me)'s API using Crystal.
+Access [Brium](http://brium.me)'s API using Crystal.
 
 #### Projectfile
 
