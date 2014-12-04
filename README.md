@@ -13,6 +13,8 @@ end
 #### Usage
 
 ```crystal
+require "brium"
+
 client_id = "..."
 client_secret = "..."
 
