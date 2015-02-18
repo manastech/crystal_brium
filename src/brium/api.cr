@@ -1,5 +1,13 @@
 class Brium::API
-  def initialize(@session : OAuth2::Session)
+  def self.new(access_token : String, host = nil, port = nil, ssl = false)
+    oauth_client = Brium.new_oauth_client("dummy", "dummy")
+    token = OAuth2::AccessToken::Bearer.new(access_token, 60 * 60 * 24 * 365 * 10)
+    session = OAuth2::Session.new(oauth_client, token, expires_at: 10.years.from_now) {}
+    new session, host, port, ssl
+  end
+
+  def initialize(@session : OAuth2::Session, host = nil, @port = nil, @ssl = false)
+    @host = host || "brium.me"
   end
 
   def workers(active = nil, admin = nil, suspended = nil)
@@ -54,6 +62,11 @@ class Brium::API
     Array(Holiday).from_json(response.body)
   end
 
+  def keywords
+    response = get "/api/keywords.json"
+    Array(Keyword).from_json(response.body)
+  end
+
   def self.handle(response : HTTP::Response)
     case response.status_code
     when 200, 201, 204
@@ -80,7 +93,7 @@ class Brium::API
   end
 
   private def get(uri)
-    HTTP::Client.new("brium.me") do |client|
+    HTTP::Client.new(@host, @port, @ssl) do |client|
       @session.authenticate client
       response = client.get uri
       case response.status_code

@@ -53,6 +53,20 @@ describe Brium::API do
         holiday.kind
         holiday.worker_id
       end
+
+      # Get keywords
+      keywords = api.keywords
+      keywords.each do |keyword|
+        keyword.keyword
+        keyword.budget
+        keyword.start
+        keyword.end
+        keyword.actual
+        keyword.expected_end
+        keyword.billable
+      end
+
+      Brium::API.new("access token")
     end)
   end
 end
