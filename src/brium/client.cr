@@ -3,6 +3,7 @@ class Brium::Client
     id: Int64,
     name: String,
     projects: Array(Project),
+    active: Bool,
   })
 
   def initialize(id : Int, @name, @projects = [] of Project)

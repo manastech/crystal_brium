@@ -27,9 +27,13 @@ describe Brium::API do
 
       # Get clients
       clients = api.clients
+      clients = api.clients(active: true)
       clients.each do |client|
+        client.id
         client.name
+        client.active
         client.projects.each do |project|
+          project.id
           project.name
         end
       end

@@ -21,8 +21,12 @@ class Brium::API
     Array(Worker).from_json(response.body)
   end
 
-  def clients
-    response = get "/api/clients.json"
+  def clients(active = nil)
+    params = CGI.build_form do |form|
+      form.add "active", active.to_s unless active.nil?
+    end
+
+    response = get "/api/clients.json?#{params}"
     Array(Client).from_json(response.body)
   end
 
