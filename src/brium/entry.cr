@@ -14,4 +14,8 @@ class Brium::Entry
     @id = id.to_i64
     @worker_id = worker_id.to_i64
   end
+
+  def keyword
+    @record.split(':', 2).first.strip
+  end
 end
