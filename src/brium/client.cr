@@ -6,7 +6,7 @@ class Brium::Client
     active: Bool,
   })
 
-  def initialize(id : Int, @name, @projects = [] of Project)
+  def initialize(id : Int, @name, @projects = [] of Project, @active = true)
     @id = id.to_i64
   end
 end
