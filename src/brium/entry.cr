@@ -19,5 +19,5 @@ class Brium::Entry
     @record.split(':', 2).first.strip
   end
 
-  def_hash_and_equals id
+  def_equals_and_hash id
 end
