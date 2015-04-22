@@ -12,4 +12,6 @@ class Brium::Holiday
     @id = id.to_i64
     @worker_id = worker_id.try &.to_i64
   end
+
+  def_equals_and_hash id
 end

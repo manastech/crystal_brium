@@ -18,4 +18,6 @@ class Brium::Entry
   def keyword
     @record.split(':', 2).first.strip
   end
+
+  def_hash_and_equals id
 end
