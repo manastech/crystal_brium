@@ -54,6 +54,16 @@ class Brium::API
     response.body.to_f
   end
 
+  def mark_as_billed(client, since_date, until_date,
+                     project = nil,
+                     worker = nil,
+                     billable_status = nil,
+                     record = nil)
+    params = entries_filter(client, project, worker, billable_status, record, since_date, until_date)
+    get "/api/entries/mark_as_billed?#{params}"
+    nil
+  end
+
   def holidays(kind = nil, worker_id = nil, since_date = nil, until_date = nil)
     params = CGI.build_form do |form|
       form.add "kind", kind if kind

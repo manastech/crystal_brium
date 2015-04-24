@@ -49,6 +49,9 @@ describe Brium::API do
       total_hours = api.entries_sum billable_status: "billable,billed"
       total_hours + 1
 
+      # Or mark as billed
+      api.mark_as_billed "client", Time.now, Time.now, billable_status: "billable,billed"
+
       # Get holidays
       holidays = api.holidays kind: "vacations", since_date: 3.days.ago
       holidays.each do |holiday|
