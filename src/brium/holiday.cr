@@ -3,8 +3,8 @@ class Brium::Holiday
     id: Int64,
     worker_id: {type: Int64, nilable: true},
     kind: String,
-    from: {type: Time, converter: TimeFormat::ISO_8601_DATE},
-    to: {type: Time, converter: TimeFormat::ISO_8601_DATE},
+    from: {type: Time, converter: TimeFormat.new("%F")},
+    to: {type: Time, converter: TimeFormat.new("%F")},
     description: {type: String, nilable: true},
   })
 
