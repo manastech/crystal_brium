@@ -3,7 +3,7 @@ class Brium::Entry
     id: Int64,
     worker_id: Int64,
     record: String,
-    worked_at: {type: Time, converter: TimeFormat.new("%F")},
+    worked_at: {type: Time, converter: Time::Format.new("%F")},
     hours: Float64,
     client_id: {type: Int64, nilable: true},
     project_id: {type: Int64, nilable: true},

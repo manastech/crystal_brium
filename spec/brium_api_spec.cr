@@ -1,9 +1,22 @@
-require "spec"
-require "../src/brium"
+require "./spec_helper"
 
 # At least we check it compiles ;-)
 
 describe Brium::API do
+  it "gets keywords" do
+    WebMock.stub(:get, "brium.me/api/keywords.json").
+       with(headers: {"Authorization" => "Bearer some_token"}).
+       to_return(body: %<[{"keyword":"cepheid","budget":5678,"start":"2015-03-09","end":"2015-09-30","actual":193,"expected_end":"2016-12-12","billable":true}]>)
+
+    api = Brium::API.new("some_token")
+    keywords = api.keywords
+    keywords.size.should eq(1)
+
+    keyword = keywords.first
+    keyword.keyword.should eq("cepheid")
+    keyword.budget.should eq(5678)
+  end
+
   it "compiles" do
     typeof(begin
       client_id = "..."
