@@ -2,7 +2,7 @@ class Brium::API
   def self.new(access_token : String, host = nil, port = nil, ssl = false)
     oauth_client = Brium.new_oauth_client("dummy", "dummy")
     token = OAuth2::AccessToken::Bearer.new(access_token, 60 * 60 * 24 * 365 * 10)
-    session = OAuth2::Session.new(oauth_client, token, expires_at: 10.years.from_now) {}
+    session = OAuth2::Session.new(oauth_client, token, expires_at: 10.years.from_now) { }
     new session, host, port, ssl
   end
 
@@ -11,20 +11,20 @@ class Brium::API
   end
 
   def workers(active = nil, admin = nil, suspended = nil)
-    params = CGI.build_form do |form|
-      form.add "active", active.to_s unless active.nil?
-      form.add "admin", admin.to_s  unless admin.nil?
-      form.add "suspended", suspended.to_s unless suspended.nil?
-    end
+    params = HTTP::Params.build do |params|
+               params.add "active", active.to_s unless active.nil?
+               params.add "admin", admin.to_s unless admin.nil?
+               params.add "suspended", suspended.to_s unless suspended.nil?
+             end
 
     response = get "/api/workers.json?#{params}"
     Array(Worker).from_json(response.body)
   end
 
   def clients(active = nil)
-    params = CGI.build_form do |form|
-      form.add "active", active.to_s unless active.nil?
-    end
+    params = HTTP::Params.build do |params|
+               params.add "active", active.to_s unless active.nil?
+             end
 
     response = get "/api/clients.json?#{params}"
     Array(Client).from_json(response.body)
@@ -65,12 +65,12 @@ class Brium::API
   end
 
   def holidays(kind = nil, worker_id = nil, since_date = nil, until_date = nil)
-    params = CGI.build_form do |form|
-      form.add "kind", kind if kind
-      form.add "worker_id", worker_id if worker_id
-      form.add "since", date_param(since_date)
-      form.add "until", date_param(until_date)
-    end
+    params = HTTP::Params.build do |params|
+               params.add "kind", kind if kind
+               params.add "worker_id", worker_id if worker_id
+               params.add "since", date_param(since_date)
+               params.add "until", date_param(until_date)
+             end
 
     response = get "/api/holidays.json?#{params}"
     Array(Holiday).from_json(response.body)
@@ -91,14 +91,14 @@ class Brium::API
   end
 
   private def entries_filter(client, project, worker, billable_status, record, since_date, until_date)
-    CGI.build_form do |form|
-      form.add "client", client if client
-      form.add "project", project if project
-      form.add "worker", worker if worker
-      form.add "billable_status", billable_status if billable_status
-      form.add "record", record if record
-      form.add "since", date_param(since_date) if since_date
-      form.add "until", date_param(until_date) if until_date
+    HTTP::Params.build do |params|
+      params.add "client", client if client
+      params.add "project", project if project
+      params.add "worker", worker if worker
+      params.add "billable_status", billable_status if billable_status
+      params.add "record", record if record
+      params.add "since", date_param(since_date) if since_date
+      params.add "until", date_param(until_date) if until_date
     end
   end
 

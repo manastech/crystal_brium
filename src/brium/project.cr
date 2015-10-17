@@ -1,7 +1,7 @@
 class Brium::Project
-  json_mapping({
-    id: Int64,
-    name: String,
+  JSON.mapping({
+    id:     Int64,
+    name:   String,
     active: Bool,
   })
 
@@ -11,4 +11,3 @@ class Brium::Project
 
   def_equals_and_hash id
 end
-

@@ -1,9 +1,9 @@
 class Brium::Client
-  json_mapping({
-    id: Int64,
-    name: String,
+  JSON.mapping({
+    id:       Int64,
+    name:     String,
     projects: Array(Project),
-    active: Bool,
+    active:   Bool,
   })
 
   def initialize(id : Int, @name, @projects = [] of Project, @active = true)
@@ -12,4 +12,3 @@ class Brium::Client
 
   def_equals_and_hash id
 end
-

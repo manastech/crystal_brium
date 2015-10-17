@@ -4,9 +4,9 @@ require "./spec_helper"
 
 describe Brium::API do
   it "gets keywords" do
-    WebMock.stub(:get, "brium.me/api/keywords.json").
-       with(headers: {"Authorization" => "Bearer some_token"}).
-       to_return(body: %<[{"keyword":"cepheid","budget":5678,"start":"2015-03-09","end":"2015-09-30","actual":193,"expected_end":"2016-12-12","billable":true}]>)
+    WebMock.stub(:get, "brium.me/api/keywords.json")
+           .with(headers: {"Authorization" => "Bearer some_token"})
+           .to_return(body: %<[{"keyword":"cepheid","budget":5678,"start":"2015-03-09","end":"2015-09-30","actual":193,"expected_end":"2016-12-12","billable":true}]>)
 
     api = Brium::API.new("some_token")
     keywords = api.keywords
@@ -26,8 +26,8 @@ describe Brium::API do
       access_token = OAuth2::AccessToken.from_json "..."
 
       session = OAuth2::Session.new(oauth_client, access_token) do
-        puts "Refreshing access token..."
-      end
+                  puts "Refreshing access token..."
+                end
 
       api = Brium::API.new session
 
