@@ -10,7 +10,7 @@ class Brium::Worker
 
   def initialize(id : Int, @email : String,
                  @name = nil,
-                 @hours_per_day = 8,
+                 @hours_per_day = 8.0_f64,
                  @active = true,
                  @admin = false)
     @id = id.to_i64
