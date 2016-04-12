@@ -6,7 +6,9 @@ class Brium::API
     new session, host, port, ssl
   end
 
-  def initialize(@session : OAuth2::Session, host = nil, @port = nil, @ssl = false)
+  @host : String
+
+  def initialize(@session : OAuth2::Session, host : String? = nil, @port : Int32? = nil, @ssl = false)
     @host = host || "brium.me"
   end
 
