@@ -1,5 +1,5 @@
 class Brium::API
-  def self.new(access_token : String, host = nil, port = nil, ssl = false)
+  def self.new(access_token : String, host = nil, port = nil, ssl = true)
     oauth_client = Brium.new_oauth_client("dummy", "dummy")
     token = OAuth2::AccessToken::Bearer.new(access_token, 60 * 60 * 24 * 365 * 10)
     session = OAuth2::Session.new(oauth_client, token, expires_at: 10.years.from_now) { }
@@ -8,16 +8,16 @@ class Brium::API
 
   @host : String
 
-  def initialize(@session : OAuth2::Session, host : String? = nil, @port : Int32? = nil, @ssl = false)
+  def initialize(@session : OAuth2::Session, host : String? = nil, @port : Int32? = nil, @ssl = true)
     @host = host || "brium.me"
   end
 
   def workers(active = nil, admin = nil, suspended = nil)
     params = HTTP::Params.build do |params|
-               params.add "active", active.to_s unless active.nil?
-               params.add "admin", admin.to_s unless admin.nil?
-               params.add "suspended", suspended.to_s unless suspended.nil?
-             end
+      params.add "active", active.to_s unless active.nil?
+      params.add "admin", admin.to_s unless admin.nil?
+      params.add "suspended", suspended.to_s unless suspended.nil?
+    end
 
     response = get "/api/workers.json?#{params}"
     Array(Worker).from_json(response.body)
@@ -25,8 +25,8 @@ class Brium::API
 
   def clients(active = nil)
     params = HTTP::Params.build do |params|
-               params.add "active", active.to_s unless active.nil?
-             end
+      params.add "active", active.to_s unless active.nil?
+    end
 
     response = get "/api/clients.json?#{params}"
     Array(Client).from_json(response.body)
@@ -68,11 +68,11 @@ class Brium::API
 
   def holidays(kind = nil, worker_id = nil, since_date = nil, until_date = nil)
     params = HTTP::Params.build do |params|
-               params.add "kind", kind if kind
-               params.add "worker_id", worker_id if worker_id
-               params.add "since", date_param(since_date)
-               params.add "until", date_param(until_date)
-             end
+      params.add "kind", kind if kind
+      params.add "worker_id", worker_id if worker_id
+      params.add "since", date_param(since_date)
+      params.add "until", date_param(until_date)
+    end
 
     response = get "/api/holidays.json?#{params}"
     Array(Holiday).from_json(response.body)

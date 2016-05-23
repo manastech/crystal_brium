@@ -10,7 +10,7 @@ module Brium
       client_secret,
       redirect_uri: redirect_uri,
       port: 80,
-      scheme: "http",
+      scheme: "https",
     )
   end
 end
