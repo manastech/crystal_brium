@@ -4,7 +4,7 @@ require "./spec_helper"
 
 describe Brium::API do
   it "gets keywords" do
-    WebMock.stub(:get, "brium.me/api/keywords.json")
+    WebMock.stub(:get, "https://brium.me/api/keywords.json")
            .with(headers: {"Host" => "brium.me", "Authorization" => "Bearer some_token"})
            .to_return(body: %<[{"keyword":"cepheid","budget":5678,"start":"2015-03-09","end":"2015-09-30","actual":193,"expected_end":"2016-12-12","billable":true}]>)
 
