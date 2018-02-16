@@ -17,6 +17,26 @@ describe Brium::API do
     keyword.budget.should eq(5678)
   end
 
+  it "parses entries/sum.json response" do
+    WebMock.stub(:get, "https://brium.me/api/entries/sum.json")
+      .with(
+        headers: {"Host" => "brium.me", "Authorization" => "Bearer some_token"},
+        query: {"record" => "some-great-project"}
+      ).to_return(body: "1072.95")
+    api = Brium::API.new("some_token")
+    api.entries_sum(record: "some-great-project").should eq(1072.95)
+  end
+
+  it "parses an empty entries/sum.json response" do
+    WebMock.stub(:get, "https://brium.me/api/entries/sum.json")
+      .with(
+        headers: {"Host" => "brium.me", "Authorization" => "Bearer some_token"},
+        query: {"record" => "non-existent-project"}
+      ).to_return(body: "")
+    api = Brium::API.new("some_token")
+    api.entries_sum(record: "non-existent-project").should eq(0)
+  end
+
   it "compiles" do
     typeof(begin
       client_id = "..."

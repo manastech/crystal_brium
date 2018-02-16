@@ -53,6 +53,7 @@ class Brium::API
                   until_date = nil)
     params = entries_filter(client, project, worker, billable_status, record, since_date, until_date)
     response = get "/api/entries/sum.json?#{params}"
+    return 0.0 if response.body.empty?
     response.body.to_f
   end
 
