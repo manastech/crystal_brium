@@ -83,7 +83,7 @@ describe Brium::API do
       total_hours + 1
 
       # Or mark as billed
-      api.mark_as_billed "client", Time.now, Time.now, billable_status: "billable,billed"
+      api.mark_as_billed "client", Time.local, Time.local, billable_status: "billable,billed"
 
       # Get holidays
       holidays = api.holidays kind: "vacations", since_date: 3.days.ago

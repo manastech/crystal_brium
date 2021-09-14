@@ -1,14 +1,17 @@
 class Brium::Entry
-  JSON.mapping({
-    id:              Int64,
-    worker_id:       Int64,
-    record:          String,
-    worked_at:       {type: Time, converter: Time::Format.new("%F")},
-    hours:           Float64,
-    client_id:       {type: Int64, nilable: true},
-    project_id:      {type: Int64, nilable: true},
-    billable_status: {type: String, nilable: true},
-  })
+  include JSON::Serializable
+
+  property id : Int64
+  property worker_id : Int64
+  property record : String
+
+  @[JSON::Field(converter: Time::Format.new("%F"))]
+  property worked_at : Time
+
+  property hours : Float64
+  property client_id : Int64?
+  property project_id : Int64?
+  property billable_status : String?
 
   def initialize(id : Int, worker_id : Int, @record, @worked_at, @hours, @client_id = nil, @project_id = nil, @billable_status = nil)
     @id = id.to_i64

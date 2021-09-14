@@ -1,14 +1,19 @@
 class Brium::Holiday
-  JSON.mapping({
-    id:          Int64,
-    worker_id:   {type: Int64, nilable: true},
-    kind:        String,
-    from:        {type: Time, converter: Time::Format.new("%F")},
-    to:          {type: Time, converter: Time::Format.new("%F")},
-    description: {type: String, nilable: true},
-  })
+  include JSON::Serializable
 
-  def initialize(id : Int, worker_id = nil, @kind = "vacations", @from = Time.now, @to = Time.now, @description = nil)
+  property id : Int64
+  property worker_id : Int64?
+  property kind : String
+
+  @[JSON::Field(converter: Time::Format.new("%F"))]
+  property from : Time
+
+  @[JSON::Field(converter: Time::Format.new("%F"))]
+  property to : Time
+
+  property description : String?
+
+  def initialize(id : Int, worker_id = nil, @kind = "vacations", @from = Time.local, @to = Time.local, @description = nil)
     @id = id.to_i64
     @worker_id = worker_id.try &.to_i64
   end
