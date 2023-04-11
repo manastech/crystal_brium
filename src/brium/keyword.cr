@@ -1,11 +1,19 @@
 class Brium::Keyword
-  JSON.mapping({
-    keyword:      String,
-    budget:       Int32,
-    start:        {type: Time, converter: Time::Format.new("%F")},
-    end:          {type: Time, converter: Time::Format.new("%F"), nilable: true},
-    actual:       Int32,
-    expected_end: {type: Time, converter: Time::Format.new("%F"), nilable: true},
-    billable:     Bool,
-  })
+  include JSON::Serializable
+
+  property keyword : String
+  property budget : Int32
+
+  @[JSON::Field(converter: Time::Format.new("%F"))]
+  property start : Time
+
+  @[JSON::Field(converter: Time::Format.new("%F"))]
+  property end : Time?
+
+  property actual : Int32
+
+  @[JSON::Field(converter: Time::Format.new("%F"))]
+  property expected_end : Time?
+
+  property billable : Bool
 end

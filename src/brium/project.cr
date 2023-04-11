@@ -1,9 +1,9 @@
 class Brium::Project
-  JSON.mapping({
-    id:     Int64,
-    name:   String,
-    active: Bool,
-  })
+  include JSON::Serializable
+
+  property id : Int64
+  property name : String
+  property active : Bool
 
   def initialize(id : Int, @name, @active = true)
     @id = id.to_i64

@@ -1,12 +1,12 @@
 class Brium::Worker
-  JSON.mapping({
-    id:            Int64,
-    email:         String,
-    name:          {type: String, nilable: true},
-    hours_per_day: Float64,
-    active:        Bool,
-    admin:         Bool,
-  })
+  include JSON::Serializable
+
+  property id : Int64
+  property email : String
+  property name : String?
+  property hours_per_day : Float64
+  property active : Bool
+  property admin : Bool
 
   def initialize(id : Int, @email : String,
                  @name = nil,
